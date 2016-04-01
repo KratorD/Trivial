@@ -1,0 +1,60 @@
+<!--[* $Id: Trivial_user_play.htm 31 2010-09-16 Krator $ &nbsp; *]-->
+<div align="center"><!--[pnimg src=Banderola_Trivial.png __alt="Game of questions and answer" __title="Game of questions and answer"]--></div>
+
+<br /><br />
+
+<!--[if $idTorneo eq 1]-->
+	<div id="identrivi_torneo" align="center"><!--[gt text="Tournament about"]-->&nbsp;<!--[$Heroe]--></div>
+<!--[else]-->
+	<div id="identrivi_torneo" align="center"><!--[gt text="Tournament about"]-->&nbsp;<!--[$comp.Nombre]--></div>
+<!--[/if]-->
+
+<br /><br />
+
+<div id="tituntas"><!--[gt text="Questions"]--></div><br>
+
+<form name="formPreg" method="post" action="<!--[pnmodurl modname="Trivial" type="user" func="play" page=$pager.page]-->">
+	<input type="hidden" name="idTorneo" value="<!--[ $idTorneo ]-->">
+	<!--[ foreach from=$questions item=question name=i]-->
+
+	<div id="rastreator" align="center">
+		<div id="dimensionador" align="justify">
+			<div id="bast_izq"></div>
+			<div id="bast_der"></div>
+			<div id="bast_sup">
+				<div id="esq_sup_izq"></div>
+				<div id="esq_sup_der""></div>
+			</div>
+			<div id="bast_inf">
+				<div id="esq_inf_izq"></div>
+				<div id="esq_inf_der"></div>
+			</div>
+	
+			<div id="cuerpo_trivi">
+
+				<div id="trivi_preg"><!--[ $question.Pregunta ]--></div>
+				<div><input type="radio" name="group[<!--[$smarty.foreach.i.iteration]-->]" value="1" checked>&nbsp;<!--[ $question.Resp1 ]--></div>
+				<div><input type="radio" name="group[<!--[$smarty.foreach.i.iteration]-->]" value="2">&nbsp;<!--[ $question.Resp2 ]--></div>
+				<!--[if $question.Resp3 ne '']-->
+					<div><input type="radio" name="group[<!--[$smarty.foreach.i.iteration]-->]" value="3">&nbsp;<!--[ $question.Resp3 ]--></div>
+				<!--[/if]-->
+				<!--[if $question.Resp4 ne '']-->
+					<div><input type="radio" name="group[<!--[$smarty.foreach.i.iteration]-->]" value="4">&nbsp;<!--[ $question.Resp4 ]--></div>	
+				<!--[/if]-->
+			</div>
+		</div>
+	</div>
+					
+			
+	<input type="hidden" name="idPreg[<!--[$smarty.foreach.i.iteration]-->]" value="<!--[ $question.ID ]-->">
+	
+	<br><br>
+	<!--[ /foreach ]-->
+
+	<div align="center"><input type="submit" name="Submit" value="<!--[gt text="Submit"]-->"></div>
+	<input type="hidden" name="Heroe" value="<!--[ $Heroe ]-->">
+	<input type="hidden" name="numMaxPag" value="<!--[ $numMaxPag ]-->">
+	<input type="hidden" name="respOK" value="<!--[ $respOK ]-->">
+	<input type="hidden" name="numitems" value="<!--[ $numitems ]-->">
+	<input type="hidden" name="hora_inicio" value="<!--[ $hora_inicio ]-->">
+</form>

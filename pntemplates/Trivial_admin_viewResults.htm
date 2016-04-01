@@ -1,0 +1,56 @@
+<!--[* $Id: Trivial_admin_viewCompeticiones.htm 22155 2010-12-27 17:35:23Z krator $ *]-->
+<!--[*pnpageaddvar name="javascript" value="modules/h_menus/pnjavascript/h_menus.js"*]-->
+
+<!--[include file="Trivial_admin_menu.htm"]-->
+<div class="z-admincontainer">
+  <div class="z-adminpageicon"><!--[pnimg modname=core src=filenew.gif set=icons/large __alt='Trivial' altml=true]--></div>
+  <h2><!--[gt text="Trivial Administration"]--></h2>
+
+	<center><h1><!--[gt text="View Results"]--></h1></center><br>
+	<form name="frmFiltro" method="post" action="<!--[pnmodurl modname="Trivial" type="admin" func="viewResults"]-->">
+		<fieldset id="fiel"><legend><!--[gt text="Filter"]--></legend>
+			<div align="center"><!--[gt text="Select Competition"]-->
+				<select name="cmbFiltro" id="cmbFiltro">
+				<!--[ foreach from=$torneos item=torneo ]-->
+					<!--[ if $torneo.Nombre EQ $filtro ]-->
+						<option selected value="<!--[ $torneo.ID ]-->"><!--[ $torneo.Nombre ]--></option>
+					<!--[ else ]-->
+						<option value="<!--[ $torneo.ID ]-->"><!--[ $torneo.Nombre ]--></option>
+					<!--[ /if ]-->
+				<!--[ /foreach ]-->
+				</select>
+				<input type="submit" name="Submit" value="<!--[gt text="Filter"]-->">
+			</div>			  
+		</fieldset>
+	</form>
+
+	<center>
+		<table width="600" border="1">
+			<tr bgcolor="#3366CC"> 
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="ID"]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="Player"]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="Tournament"]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="Result"]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="Time"]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="Date"]--></font></strong></div></td>
+			</tr>
+		<!--[ foreach from=$resultados item=resultado ]-->
+			<!--[pnusergetvar name=$resultado.Jugador assign=currentuser]-->
+			<tr>			
+				<td><div align="center"><!--[ $resultado.ID|pnvarprepfordisplay ]--></div></td>
+				<td><div align="center"><!--[$currentuser]--><!--[ $resultado.Jugador|pnvarprepfordisplay ]--></div></td>			
+				<td><div align="center"><!--[$comp.Nombre]--> (<!--[ $resultado.Torneo|pnvarprepfordisplay ]-->)</div></td>
+				<td><div align="center"><!--[ $resultado.Resultado|pnvarprepfordisplay ]--></div></td>
+				<td><div align="center"><!--[ $resultado.Tiempo|pnvarprepfordisplay ]--></div></td>
+				<td><div align="center"><!--[ $resultado.Fecha|date_format:"%d/%m/%Y" ]--></div></td>
+			</tr>
+		<!--[ /foreach ]-->
+		</table>
+	</center>
+	<br>
+
+	<center>
+	<!--[*pager display=page rowcount=$pager.numitems limit=$pager.itemsperpage posvar=page*]-->
+	</center><br>
+
+</div>

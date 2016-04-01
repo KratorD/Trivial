@@ -1,0 +1,28 @@
+/* $Id: blank.css 31 2008-12-23 20:55:41Z Guite $ */
+
+#contenedor {
+width:100%;
+}
+
+#bast_sup {
+position: relative; 
+background-color: #ff9966; 
+width: 70%; 
+height:30px;
+text-align:center;
+}
+
+.esq_sup_izq {
+background: url(../pnimages/esq_sup_izq.gif) no-repeat;
+position: absolute;
+width: 26px;
+height: 26px;
+}
+
+.ext_izq {
+background: url(../pnimages/bast_sup.gif) repeat-x;
+position: absolute;
+left: 26px;
+width: 43%;
+
+}

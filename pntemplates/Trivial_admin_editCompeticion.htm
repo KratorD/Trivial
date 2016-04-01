@@ -1,0 +1,66 @@
+<!--[* $Id: Trivial_admin_editPregunta.htm 22155 2011-02-01 10:37:23Z krator $ *]-->
+<!--[pnpageaddvar name="javascript" value="javascript/jscalendar/calendar.js"]-->
+<!--[pnpageaddvar name="javascript" value="javascript/jscalendar/lang/calendar-es_ES.utf8.js"]-->
+<!--[pnpageaddvar name="javascript" value="javascript/jscalendar/calendar-setup.js"]-->
+<!--[pnpageaddvar name="stylesheet" value="javascript/jscalendar/calendar-blue2.css"]-->
+<!--[include file="Trivial_admin_menu.htm"]-->
+
+<form name="fichaPregunta" method="post" action="<!--[pnmodurl modname="Trivial" type="admin" func="updateCompeticion" ID=$comp.ID]-->">
+	<div><strong><font color="#000000">
+		<!--[gt text="Name"]-->&nbsp;
+		<input name="txtNombre" type="text" id="txtNombre" value="<!--[$comp.Nombre]-->" size="60" maxlength="255">
+	</font></strong></div>
+	<div><strong><font color="#000000">
+		<!--[gt text="Begin D."]-->&nbsp;
+			<input type="text" value="<!--[$comp.F_Inicio]-->" READONLY id="fechIni" name="Fecha_Ini" />
+		  <button id="fechaI"><!--[gt text="Date"]--></button>
+
+			<script type="text/javascript">
+				Calendar.setup(
+					{
+						inputField  : "fechIni",    // ID of the input field
+						ifFormat    : "%Y-%m-%d",   // the date format
+						button      : "fechaI"      // ID of the button
+					}
+				);
+			</script>
+	</font></strong></div>
+	<div><strong><font color="#000000">
+		<!--[gt text="End D."]-->&nbsp;
+		<input type="text" value="<!--[$comp.F_Fin]-->" READONLY id="fechFin" name="Fecha_Fin" />
+		  <button id="fechaF"><!--[gt text="Date"]--></button>
+
+			<script type="text/javascript">
+				Calendar.setup(
+					{
+						inputField  : "fechFin",    // ID of the input field
+						ifFormat    : "%Y-%m-%d",   // the date format
+						button      : "fechaF"      // ID of the button
+					}
+				);
+			</script>
+	</font></strong></div>
+	<div><strong><font color="#000000">
+		<!--[gt text="Number Q."]-->&nbsp;
+		<input name="txtNoQ" type="text" id="txtNoQ" value="<!--[$comp.N_Preguntas]-->" size="2" maxlength="2">
+	</font></strong></div>
+	<div><strong><font color="#000000">
+		<!--[gt text="Unique"]-->&nbsp;
+		<!--[if $comp.Unica eq 0]-->
+			<input name="chkUnica" type="checkbox" id="chkUnica">
+		<!--[else]-->
+			<input name="chkUnica" type="checkbox" id="chkUnica" checked>
+		<!--[/if]-->
+	</font></strong></div>
+	<div><strong><font color="#000000">
+		<!--[gt text="Active"]-->&nbsp;
+		<!--[if $comp.Activa eq 0]-->
+			<input name="chkActiva" type="checkbox" id="chkActiva">
+		<!--[else]-->
+			<input name="chkActiva" type="checkbox" id="chkActiva" checked>
+		<!--[/if]-->
+	</font></strong></div>	
+	<div>
+		<input type="submit" name="Submit" value="<!--[gt text="Submit"]-->">
+	</div>
+</form>

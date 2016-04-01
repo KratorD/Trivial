@@ -1,0 +1,58 @@
+<!--[* $Id: Trivial_user_show.htm 31 2010-09-16 Krator $ &nbsp; *]-->
+
+<div align="center"><!--[pnimg src=Banderola_Trivial.png __alt="Game of questions and answer" __title="Game of questions and answer"]--></div>
+
+<!--[pnpageaddvar name="javascript" value="modules/Trivial/pnjavascript/Trivial.js"]-->
+
+<form name="juegaTorneo" method="post" action="<!--[pnmodurl modname="Trivial" type="user" func="play"]-->">
+	<div align="center">
+		<i><!--[gt text="Select the tournament that you want participate"]-->:</i><!--[ $torneo ]--><input type="submit" value="<!--[gt text="Play!"]-->">
+		<div id="heroe" style="display:block;">
+			<select name="cmbHeroe" id="cmbHeroe">
+				<option value="Todos" selected><!--[gt text="All"]--></option>
+				<option value="Heroes I"><!--[gt text="Heroes 1"]--></option>
+				<option value="Heroes II"><!--[gt text="Heroes 2"]--></option>
+				<option value="Heroes III"><!--[gt text="Heroes 3"]--></option>
+				<option value="Heroes IV"><!--[gt text="Heroes 4"]--></option>
+				<option value="Heroes V"><!--[gt text="Heroes 5"]--></option>
+				<option value="Heroes VI"><!--[gt text="Heroes 6"]--></option>
+			</select>
+		</div>
+	</div>
+</form>
+<br /><br /><br />
+<div align="center" style="width:100%; position:relative;">
+	<div id="cab_clasif"></div>
+	<div id="tit_clasif"><div id="bajatit"> <!--[gt text="General clasification"]--></div></div>
+	<div id="cuerpo_clasif">
+	
+		<center>
+		<table width="331" border="0" cellspacing="0" cellpadding="0">
+			<!--[* Cabecera Tabla *]-->
+			<tr>
+				<td>
+					<div align="center"><b><!--[gt text="USER"]--></b></div>
+				</td>
+				<td>
+					<div align="center"><b><!--[gt text="MEDIA"]--></b></div>
+				</td>
+			</tr>
+			<!--[* Cuerpo Tabla *]-->
+			<!--[ foreach from=$listado item=lista ]-->
+			<tr>
+				<td>
+					<div align="center"><!--[ $lista.Usuario ]--></div>
+				</td>
+				<td>
+					<div align="center"><!--[ $lista.Media ]--></div>
+				</td>
+			</tr>
+			<!--[ /foreach ]-->
+		</table>
+		</center>
+	</div>
+	<div id="pie_clasif"></div><br>
+	<div align="center">
+		<!--[pager display=page rowcount=$pager.numitems limit=$pager.itemsperpage posvar=page]-->
+	</div><br>
+</div>

@@ -1,0 +1,86 @@
+<!--[* $Id: Trivial_admin_viewCompeticiones.htm 22155 2010-12-27 17:35:23Z krator $ *]-->
+<!--[*pnpageaddvar name="javascript" value="modules/h_menus/pnjavascript/h_menus.js"*]-->
+
+<!--[include file="Trivial_admin_menu.htm"]-->
+<div class="z-admincontainer">
+  <div class="z-adminpageicon"><!--[pnimg modname=core src=filenew.gif set=icons/large __alt='Trivial' altml=true]--></div>
+  <h2><!--[gt text="Trivial Administration"]--></h2>
+  
+	<center><h1><!--[gt text="View Competitions"]--></h1></center><br>
+	
+	<div align="center">
+		<table width="600" border="0">
+			<tr>
+				<td>
+					<form name="anadir" method="post" action="<!--[pnmodurl modname="Trivial" type="admin" func="newCompeticion"]-->">
+					  <input type="submit" name="Submit" value="<!--[gt text="Add competition"]-->">
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<center>
+		<table width="600" border="1">
+			<tr bgcolor="#3366CC"> 
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="ID"]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="Name"]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="Begin D."]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="End D."]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="Number Q."]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="Unique"]--></font></strong></div></td>
+				<td><div align="center"><strong><font color="#FFFFFF"><!--[gt text="Active"]--></font></strong></div></td>
+				<td width="20"></td>
+				<td width="20"></td>
+			</tr>
+		<!--[ foreach from=$torneos item=torneos ]-->
+			<tr>			
+				<td><div align="center"><!--[ $torneos.ID|pnvarprepfordisplay ]--></div></td>
+				<td><div align="center"><!--[ $torneos.Nombre|pnvarprepfordisplay ]--></div></td>			
+				<td><div align="center"><!--[ $torneos.F_Inicio|date_format:"%d/%m/%Y" ]--></div></td>
+				<td><div align="center"><!--[ $torneos.F_Fin|date_format:"%d/%m/%Y" ]--></div></td>
+				<td><div align="center"><!--[ $torneos.N_Preguntas|pnvarprepfordisplay ]--></div></td>
+				<td><div align="center"></div>
+					<!--[ if $torneos.Unica eq true ]-->
+						<input name="checkbox" type="checkbox" value="checkbox" checked disabled>
+					<!--[ else ]-->
+						<input name="checkbox" type="checkbox" value="checkbox" disabled>
+					<!--[ /if ]-->
+				</td>
+				<td><div align="center"></div>
+					<!--[ if $torneos.Activa eq true ]-->
+						<input name="checkbox" type="checkbox" value="checkbox" checked disabled>
+					<!--[ else ]-->
+						<input name="checkbox" type="checkbox" value="checkbox" disabled>
+					<!--[ /if ]-->
+				</td>
+				<td width="20">
+					<a href="<!--[pnmodurl modname="Trivial" type="admin" func="editCompeticion" ID=$torneos.ID ]-->">
+					<!--[pnimg src=icon_edit.png width=20 height=20 __title="Edit Competition"]-->
+				</td>
+				<td width="20">
+					<a href="<!--[pnmodurl modname="Trivial" type="admin" func="deleteCompeticion"]-->&ID=<!--[ $torneos.ID ]-->">
+					<!--[pnimg src=icon_delete.png width=20 height=20 __title="Delete Competition"]-->
+				</td>
+			</tr>
+		<!--[ /foreach ]-->
+		</table>
+	</center>
+	<div align="center">
+		<table width="600" border="0">
+			<tr>
+				<td>
+					<form name="anadir" method="post" action="<!--[pnmodurl modname="Trivial" type="admin" func="newCompeticion"]-->">
+					  <input type="submit" name="Submit" value="<!--[gt text="Add competition"]-->">
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<br>
+
+	<center>
+	<!--[*pager display=page rowcount=$pager.numitems limit=$pager.itemsperpage posvar=page*]-->
+	</center><br>
+	
+</div>
