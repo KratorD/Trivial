@@ -1,0 +1,14 @@
+{# purpose of this template: questions xml inclusion template #}
+<question id="{{ question.getId() }}" createdon="{{ question.createdDate|localizeddate('medium', 'short') }}" updatedon="{{ question.updatedDate|localizeddate('medium', 'short') }}">
+    <id>{{ question.id }}</id>
+    <question><![CDATA[{{ question.question }}]]></question>
+    <corrAnswer>{{ question.corrAnswer }}</corrAnswer>
+    <workflowState>{{ question.workflowState|zikulatrivialmodule_objectState(false)|lower }}</workflowState>
+    <answers>
+    {% if question.answers|default %}
+        {% for relatedItem in question.answers %}
+        <answer>{{ relatedItem|zikulatrivialmodule_formattedTitle }}</answer>
+        {% endfor %}
+    {% endif %}
+    </answers>
+</question>

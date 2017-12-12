@@ -1,0 +1,11 @@
+{# Purpose of this template: Display tournaments within an external context #}
+<dl>
+    {% for tournament in items %}
+        <dt>{{ tournament|zikulatrivialmodule_formattedTitle }}</dt>
+        {% if tournament.name %}
+            <dd>{{ tournament.name|striptags|truncate(200, true, '&hellip;') }}</dd>
+        {% endif %}
+    {% else %}
+        <dt>{{ __('No entries found.') }}</dt>
+    {% endfor %}
+</dl>

@@ -1,0 +1,9 @@
+{# purpose of this template: questions view xml view #}
+<?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
+<questions>
+{% for question in items %}
+    {{ include('@ZikulaTrivialModule/Question/include.xml.twig') }}
+{% else %}
+    <noQuestion />
+{% endfor %}
+</questions>

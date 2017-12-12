@@ -1,0 +1,7 @@
+{# purpose of this template: questions index view #}
+{% extends routeArea == 'admin' ? 'ZikulaTrivialModule::adminBase.html.twig' : 'ZikulaTrivialModule::base.html.twig' %}
+{% block title __('questions') %}
+{% block admin_page_icon 'home' %}
+{% block content %}
+    <p>{{ __('Welcome to the question section of the Trivial application.') }}</p>
+{% endblock %}

@@ -1,0 +1,8 @@
+{# Purpose of this template: Display results within an external context #}
+<dl>
+    {% for result in items %}
+        <dt>{{ result|zikulatrivialmodule_formattedTitle }}</dt>
+    {% else %}
+        <dt>{{ __('No entries found.') }}</dt>
+    {% endfor %}
+</dl>

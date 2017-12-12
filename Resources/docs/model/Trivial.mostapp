@@ -1,0 +1,103 @@
+application "Trivial" {
+    vendor "Zikula"
+    author "Krator"
+    email "kratord@hotmail.com"
+    url "https://www.heroesofmightandmagic.es"
+    prefix "trivial"
+    entities {
+        entity "tournament" leading {
+            nameMultiple "tournaments"
+            displayPattern "#name#"
+            fields {
+                string "name"  {
+                    length 50
+                },
+                datetime "dateFrom" {
+                    mandatory false
+                    components DATE
+                },
+                datetime "dateTo" {
+                    mandatory false
+                    components DATE
+                },
+                boolean "active" {
+                    mandatory false
+                },
+                integer "nQuestions" {
+                    defaultValue "0"
+                    mandatory false
+                    length 4
+                }
+            }
+            actions {
+                mainAction "Index",
+                viewAction "View",
+                editAction "Edit",
+                deleteAction "Delete"
+            }
+        },
+        entity "question" categorisable {
+            nameMultiple "questions"
+            fields {
+                string "question"
+            ,
+                integer "corrAnswer" {
+                    defaultValue "0"
+                    length 4
+                }
+            }
+            actions {
+                mainAction "Index",
+                viewAction "View",
+                displayAction "Display",
+                editAction "Edit",
+                deleteAction "Delete"
+            }
+        }
+    ,
+        entity "answer" {
+            nameMultiple "answers"
+            fields {
+                string "answer"
+            }
+            actions {
+                viewAction "View",
+                editAction "Edit",
+                deleteAction "Delete"
+            }
+        },
+        entity "result" {
+            nameMultiple "results"
+            fields {
+                user "player",
+                integer "score" {
+                    defaultValue "0"
+                    length 4
+                },
+                datetime "totalTime" {
+                    mandatory false
+                    components TIME
+                }
+            }
+            actions {
+                viewAction "View"
+            }
+        }
+    }
+    relations {
+        one2many {
+            source "tournament"
+            sourceAlias "tournament"
+            target "question"
+            targetAlias "questions"
+            targetField "codQuestion"
+        },
+        one2many {
+            source "question"
+            sourceAlias "question"
+            target "answer"
+            targetAlias "answers"
+            targetField "codanswer"
+        }
+    }
+}

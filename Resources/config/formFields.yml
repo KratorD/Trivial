@@ -1,0 +1,8 @@
+services:
+    # Form field types
+    
+    zikula_trivial_module.form.type.field.multilist:
+        class: Zikula\TrivialModule\Form\Type\Field\MultiListType
+        arguments:
+            - "@zikula_trivial_module.listentries_helper"
+        tags: ['form.type']

@@ -1,0 +1,77 @@
+{# Purpose of this template: Display a popup selector of questions for scribite integration #}
+{% set useFinder = true %}
+{% extends 'ZikulaTrivialModule::raw.html.twig' %}
+{% block title __('Search and select question') %}
+{% block content %}
+    <div class="container">
+        <div class="zikula-bootstrap-tab-container">
+            <ul class="nav nav-tabs">
+            {% set activatedObjectTypes = getModVar('ZikulaTrivialModule', 'enabledFinderTypes', []) %}
+            {% if 'question' in activatedObjectTypes %}
+                <li{{ objectType == 'question' ? ' class="active"' : '' }}><a href="{{ path('zikulatrivialmodule_external_finder', {objectType: 'question', editor: editorName}) }}" title="{{ __('Search and select question') }}">{{ __('Questions') }}</a></li>
+            {% endif %}
+            </ul>
+        </div>
+        {% form_theme finderForm with [
+            '@ZikulaTrivialModule/Form/bootstrap_3.html.twig',
+            'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+        ] %}
+        {{ form_start(finderForm, {attr: {id: 'zikulaTrivialModuleSelectorForm'}}) }}
+        {{ form_errors(finderForm) }}
+        <fieldset>
+            <legend>{{ __('Search and select question') }}</legend>
+            {% if featureActivationHelper.isEnabled(constant('Zikula\\TrivialModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'question') %}
+                {{ form_row(finderForm.categories) }}
+            {% endif %}
+            {{ form_row(finderForm.pasteAs) }}
+            <br />
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{ __('Question') }}:</label>
+                <div class="col-sm-9">
+                    <div id="zikulatrivialmoduleItemContainer">
+                        <ul>
+                            {% for question in items %}
+                                <li>
+                                    {% set itemId = question.getKey() %}
+                                    <a href="#" data-itemid="{{ itemId }}">
+                                        {{ question|zikulatrivialmodule_formattedTitle }}
+                                    </a>
+                                    <input type="hidden" id="path{{ itemId }}" value="{{ path('zikulatrivialmodule_question_display', {'id': question.getId()}) }}" />
+                                    <input type="hidden" id="url{{ itemId }}" value="{{ url('zikulatrivialmodule_question_display', {'id': question.getId()}) }}" />
+                                    <input type="hidden" id="title{{ itemId }}" value="{{ question|zikulatrivialmodule_formattedTitle|e('html_attr') }}" />
+                                    <input type="hidden" id="desc{{ itemId }}" value="{% set description %}{% if question.question is not empty %}{{ question.question }}{% endif %}
+                                    {% endset %}{{ description|striptags|e('html_attr') }}" />
+                                </li>
+                            {% else %}
+                                <li>{{ __('No questions found.') }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {{ form_row(finderForm.sort) }}
+            {{ form_row(finderForm.sortdir) }}
+            {{ form_row(finderForm.num) }}
+            {{ form_row(finderForm.q) }}
+            <div>
+                {{ pager({display: 'page', rowcount: pager.numitems, limit: pager.itemsperpage, posvar: 'pos', maxpages: 10, route: 'zikulatrivialmodule_external_finder'}) }}
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {{ form_widget(finderForm.update) }}
+                    {{ form_widget(finderForm.cancel) }}
+                </div>
+            </div>
+        </fieldset>
+        {{ form_end(finderForm) }}
+    </div>
+
+    {#
+    <div class="zikulatrivialmodule-finderform">
+        <fieldset>
+            {{ render(controller('ZikulaTrivialModule:Question:edit')) }}
+        </fieldset>
+    </div>
+    #}
+{% endblock %}

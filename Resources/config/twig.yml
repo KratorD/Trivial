@@ -1,0 +1,12 @@
+services:
+    # Twig extension
+    zikula_trivial_module.twig_extension:
+        class: Zikula\TrivialModule\Twig\TwigExtension
+        arguments:
+            - "@translator.default"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_trivial_module.entity_display_helper"
+            - "@zikula_trivial_module.workflow_helper"
+            - "@zikula_trivial_module.listentries_helper"
+        public: false
+        tags: ['twig.extension']

@@ -1,0 +1,8 @@
+{# purpose of this template: results view csv view #}
+{% spaceless %}"{{ __('Player') }}";"{{ __('Score') }}";"{{ __('Total time') }}";"{{ __('Workflow state') }}"
+{% endspaceless %}
+{% for result in items %}
+{% spaceless %}
+    "{{ result.player.getUname() }}";"{{ result.score }}";"{{ result.totalTime|localizeddate('none', 'short') }}";"{{ result.workflowState|zikulatrivialmodule_objectState(false)|lower }}"
+{% endspaceless %}
+{% endfor %}

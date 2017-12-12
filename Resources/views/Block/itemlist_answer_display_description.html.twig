@@ -1,0 +1,11 @@
+{# Purpose of this template: Display answers within an external context #}
+<dl>
+    {% for answer in items %}
+        <dt>{{ answer|zikulatrivialmodule_formattedTitle }}</dt>
+        {% if answer.answer %}
+            <dd>{{ answer.answer|striptags|truncate(200, true, '&hellip;') }}</dd>
+        {% endif %}
+    {% else %}
+        <dt>{{ __('No entries found.') }}</dt>
+    {% endfor %}
+</dl>

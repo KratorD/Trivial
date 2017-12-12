@@ -1,0 +1,50 @@
+{# purpose of this template: tournaments atom feed #}
+<?xml version="1.0" encoding="{% set charset = pageGetVar('meta.charset') %}{% if charset == 'ISO-8859-15' %}ISO-8859-1{% else %}{{ charset }}{% endif %}" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title type="text">{{ __('Latest tournaments') }}</title>
+    <subtitle type="text">{{ __('A direct feed showing the list of tournaments') }} - {{ getModVar('ZConfig', 'slogan') }}</subtitle>
+    <author>
+        <name>{{ getModVar('ZConfig', 'sitename') }}</name>
+    </author>
+{% set amountOfItems = items|length %}
+{% if amountOfItems > 0 %}
+{% set uniqueID %}tag:{{ app.request.schemeAndHttpHost|replace({'http://': '', '/': ''}) }},{{ items.first.createdDate|date('Y-m-d') }}:{{ path('zikulatrivialmodule_tournament_' ~ routeArea ~ 'view') }}{% endset %}
+    <id>{{ uniqueID }}</id>
+    <updated>{{ items[0].updatedDate|date('Y-m-dTH:M:SZ') }}</updated>
+{% endif %}
+    <link rel="alternate" type="text/html" hreflang="{{ app.request.locale }}" href="{{ url('zikulatrivialmodule_tournament_' ~ routeArea ~ 'index') }}" />
+    <link rel="self" type="application/atom+xml" href="{{ app.request.schemeAndHttpHost ~ app.request.basePath }}" />
+    <rights>Copyright (c) {{ 'now'|date('Y') }}, {{ app.request.schemeAndHttpHost }}</rights>
+{% for tournament in items %}
+    <entry>
+        <title type="html">{{ tournament|zikulatrivialmodule_formattedTitle|notifyFilters('zikulatrivialmodule.filterhook.tournaments')|safeHtml }}</title>
+        <link rel="alternate" type="text/html" href="{{ url('zikulatrivialmodule_tournament_' ~ routeArea ~ 'view') }}" />
+        {% set uniqueID %}tag:{{ app.request.schemeAndHttpHost|replace({ 'http://': '', '/': '' }) }},{{ tournament.createdDate|date('Y-m-d') }}:{{ path('zikulatrivialmodule_tournament_' ~ routeArea ~ 'view') }}{% endset %}
+        <id>{{ uniqueID }}</id>
+        {% if tournament.updatedDate|default %}
+            <updated>{{ tournament.updatedDate|date('Y-m-dTH:M:SZ') }}</updated>
+        {% endif %}
+        {% if tournament.createdDate|default %}
+            <published>{{ tournament.createdDate|date('Y-m-dTH:M:SZ') }}</published>
+        {% endif %}
+        {% if tournament.createdBy|default and tournament.createdBy.getUid() > 0 %}
+            {% set creatorAttributes = tournament.createdBy.getAttributes() %}
+            <author>
+               <name>{{ creatorAttributes.get('realname')|default(creatorAttributes.get('name'))|default(tournament.createdBy.getUname()) }}</name>
+               <uri>{{ creatorAttributes.get('_UYOURHOMEPAGE')|default('-') }}</uri>
+               <email>{{ tournament.createdBy.getEmail() }}</email>
+            </author>
+        {% endif %}
+        <summary type="html">
+            <![CDATA[
+            {{ tournament.name|truncate(150, true, '&hellip;')|default('-') }}
+            ]]>
+        </summary>
+        <content type="html">
+            <![CDATA[
+            {{ tournament|zikulatrivialmodule_formattedTitle|replace({ '<br>': '<br />' }) }}
+            ]]>
+        </content>
+    </entry>
+{% endfor %}
+</feed>

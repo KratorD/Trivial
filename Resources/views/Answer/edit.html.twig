@@ -1,0 +1,87 @@
+{# purpose of this template: build the form to edit an instance of answer #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
+{% extends 'ZikulaTrivialModule::' ~ baseTemplate ~ '.html.twig' %}
+
+{% block title mode == 'create' ? __('Create answer') : __('Edit answer') %}
+{% block admin_page_icon mode == 'create' ? 'plus' : 'pencil-square-o' %}
+{% block content %}
+    <div class="zikulatrivialmodule-answer zikulatrivialmodule-edit">
+        {% form_theme form with [
+            '@ZikulaTrivialModule/Form/bootstrap_3.html.twig',
+            'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+        ] %}
+        {{ form_start(form, {attr: {id: 'answerEditForm', class: 'zikulatrivial-edit-form'}}) }}
+        {{ form_errors(form) }}
+        <fieldset>
+            <legend>{{ __('Content') }}</legend>
+            {{ form_row(form.answer) }}
+        </fieldset>
+        
+        {% if mode != 'create' %}
+            {{ include('@ZikulaTrivialModule/Helper/includeStandardFieldsEdit.html.twig', {obj: answer}) }}
+        {% endif %}
+        
+        {% if formHookTemplates|length > 0 %}
+            <fieldset>
+                {% for hookTemplate in formHookTemplates %}
+                    {{ include(hookTemplate.0, hookTemplate.1, ignore_missing = true) }}
+                {% endfor %}
+            </fieldset>
+        {% endif %}
+        
+        {% if form.moderationSpecificCreator is defined %}
+            <fieldset id="moderationFieldsSection">
+                <legend>{{ __('Moderation') }} <i class="fa fa-expand"></i></legend>
+                <div id="moderationFieldsContent">
+                    {{ form_row(form.moderationSpecificCreator) }}
+                    {{ form_row(form.moderationSpecificCreationDate) }}
+                </div>
+            </fieldset>
+        {% endif %}
+        
+        
+        {# include possible submit actions #}
+        <div class="form-group form-buttons">
+            <div class="col-sm-offset-3 col-sm-9">
+                {% for action in actions %}
+                    {{ form_widget(attribute(form, action.id)) }}
+                    {% if mode == 'create' and action.id == 'submit' and form.submitrepeat is defined %}
+                        {{ form_widget(attribute(form, 'submitrepeat')) }}
+                    {% endif %}
+                {% endfor %}
+                {{ form_widget(form.reset) }}
+                {{ form_widget(form.cancel) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+        {% set hookId = mode != 'create' ? answer.id : null %}
+        {% set hooks = notifyDisplayHooks(eventName='zikulatrivialmodule.ui_hooks.answers.form_edit', id=hookId, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
+        
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaTrivialModule:js/ZikulaTrivialModule.Validation.js'), 98) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaTrivialModule:js/ZikulaTrivialModule.EditFunctions.js'), 99) }}
+    {% set formInitScript %}
+        <script>
+        /* <![CDATA[ */
+            
+            ( function($) {
+                $(document).ready(function() {
+                    zikulaTrivialInitEditForm('{{ mode }}', '{% if mode != 'create' %}{{ answer.id }}{% endif %}');
+                    {% if form.moderationSpecificCreator is defined %}
+                        initUserLiveSearch('zikulatrivialmodule_answer_moderationSpecificCreator');
+                    {% endif %}
+                });
+            })(jQuery);
+        /* ]]> */
+        </script>
+    {% endset %}
+    {{ pageAddAsset('footer', formInitScript) }}
+{% endblock %}

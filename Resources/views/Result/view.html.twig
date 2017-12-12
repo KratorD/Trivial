@@ -1,0 +1,132 @@
+{# purpose of this template: results list view #}
+{% extends routeArea == 'admin' ? 'ZikulaTrivialModule::adminBase.html.twig' : 'ZikulaTrivialModule::base.html.twig' %}
+{% block title own ? __('My results') : __('Results list') %}
+{% block admin_page_icon 'list-alt' %}
+{% block content %}
+<div class="zikulatrivialmodule-result zikulatrivialmodule-view">
+
+    {{ block('page_nav_links') }}
+
+    {{ include('@ZikulaTrivialModule/Result/viewQuickNav.html.twig', {workflowStateFilter: false}) }}{# see template file for available options #}
+
+    {% if routeArea == 'admin' %}
+    <form action="{{ path('zikulatrivialmodule_result_' ~ routeArea ~ 'handleselectedentries') }}" method="post" id="resultsViewForm" class="form-horizontal" role="form">
+        <div>
+    {% endif %}
+        <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover{% if routeArea == 'admin' %} table-condensed{% endif %}">
+            <colgroup>
+                {% if routeArea == 'admin' %}
+                    <col id="cSelect" />
+                {% endif %}
+                <col id="cItemActionsStart" />
+                <col id="cPlayer" />
+                <col id="cScore" />
+                <col id="cTotalTime" />
+            </colgroup>
+            <thead>
+            <tr>
+                {% if routeArea == 'admin' %}
+                    <th id="hSelect" scope="col" class="text-center z-w02">
+                        <input type="checkbox" class="zikulatrivial-mass-toggle" />
+                    </th>
+                {% endif %}
+                <th id="hItemActionsStart" scope="col" class="unsorted z-w02">{{ __('Actions') }}</th>
+                <th id="hPlayer" scope="col" class="text-left unsorted">
+                    {{ __('Player') }}
+                </th>
+                <th id="hScore" scope="col" class="text-right">
+                    <a href="{{ sort.score.url }}" title="{{ __f('Sort by %s', {'%s': 'score'}) }}" class="{{ sort.score.class }}">{{ __('Score') }}</a>
+                </th>
+                <th id="hTotalTime" scope="col" class="text-left">
+                    <a href="{{ sort.totalTime.url }}" title="{{ __f('Sort by %s', {'%s': 'total time'}) }}" class="{{ sort.totalTime.class }}">{{ __('Total time') }}</a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+        
+        {% for result in items %}
+            <tr>
+                {% if routeArea == 'admin' %}
+                    <td headers="hSelect" class="text-center z-w02">
+                        <input type="checkbox" name="items[]" value="{{ result.getKey() }}" class="zikulatrivial-toggle-checkbox" />
+                    </td>
+                {% endif %}
+                <td id="itemActions{{ result.getKey() }}Start" headers="hItemActionsStart" class="actions nowrap z-w02">
+                    {% set itemActions = knp_menu_get('ZikulaTrivialModule:ItemActionsMenu:menu', [], {entity: result, area: routeArea, context: 'view'}) %}
+                    <div class="dropdown">
+                        <a id="itemActions{{ result.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" data-target="#" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> <span class="caret"></span></a>
+                        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
+                    </div>
+                </td>
+                <td headers="hPlayer" class="text-left">
+                        {{ result.player.getUid()|profileLinkByUserId() }}{% if currentUser.loggedIn %}{% set sendMessageUrl = result.player.getUid()|messageSendLink(urlOnly=true) %}{% if sendMessageUrl != '#' %}<a href="{{ sendMessageUrl }}" title="{{ __f('Send private message to %userName%', { '%userName%': result.player.getUname() }) }}"><i class="fa fa-envelope-o"></i></a>{% endif %}{% endif %}
+                        <span class="avatar">{{ userAvatar(result.player.getUid(), { rating: 'g' }) }}</span>
+                </td>
+                <td headers="hScore" class="text-right">
+                    {{ result.score }}
+                </td>
+                <td headers="hTotalTime" class="text-left">
+                    {{ result.totalTime|localizeddate('none', 'short') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}5{% else %}4{% endif %}">
+            {{ __('No results found.') }}
+              </td>
+            </tr>
+        {% endfor %}
+        
+            </tbody>
+        </table>
+        </div>
+        
+        {% if all != 1 and pager|default %}
+            {{ pager({rowcount: pager.amountOfItems, limit: pager.itemsPerPage, display: 'page', route: 'zikulatrivialmodule_result_' ~ routeArea ~ 'view'}) }}
+        {% endif %}
+    {% if routeArea == 'admin' %}
+            <fieldset>
+                <label for="zikulaTrivialModuleAction" class="col-sm-3 control-label">{{ __('With selected results') }}</label>
+                <div class="col-sm-6">
+                    <select id="zikulaTrivialModuleAction" name="action" class="form-control input-sm">
+                        <option value="">{{ __('Choose action') }}</option>
+                        <option value="delete" title="{{ __('Delete content permanently.') }}">{{ __('Delete') }}</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <input type="submit" value="{{ __('Submit') }}" class="btn btn-default btn-sm" />
+                </div>
+            </fieldset>
+        </div>
+    </form>
+    {% endif %}
+
+    {{ block('display_hooks') }}
+</div>
+{% endblock %}
+{% block page_nav_links %}
+    <p>
+        {% if all == 1 %}
+            {% set linkTitle = __('Back to paginated view') %}
+            {% set routeArgs = own ? {own: 1} : {} %}
+            <a href="{{ path('zikulatrivialmodule_result_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-table"></i> {{ linkTitle }}</a>
+        {% else %}
+            {% set linkTitle = __('Show all entries') %}
+            {% set routeArgs = own ? {all: 1, own: 1} : {all: 1} %}
+            <a href="{{ path('zikulatrivialmodule_result_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-table"></i> {{ linkTitle }}</a>
+        {% endif %}
+    </p>
+{% endblock %}
+{% block display_hooks %}
+    
+    {# here you can activate calling display hooks for the view page if you need it #}
+    {# % if routeArea != 'admin' %}
+        {% set hooks = notifyDisplayHooks(eventName='zikulatrivialmodule.ui_hooks.results.display_view', urlObject=currentUrlObject, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endif % #}
+{% endblock %}

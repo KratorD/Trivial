@@ -1,0 +1,8 @@
+{# purpose of this template: results xml inclusion template #}
+<result id="{{ result.getId() }}" createdon="{{ result.createdDate|localizeddate('medium', 'short') }}" updatedon="{{ result.updatedDate|localizeddate('medium', 'short') }}">
+    <id>{{ result.id }}</id>
+    <player>{{ result.player.getUname() }}</player>
+    <score>{{ result.score }}</score>
+    <totalTime>{{ result.totalTime|localizeddate('none', 'short') }}</totalTime>
+    <workflowState>{{ result.workflowState|zikulatrivialmodule_objectState(false)|lower }}</workflowState>
+</result>

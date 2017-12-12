@@ -1,0 +1,16 @@
+{# purpose of this template: questions view csv view #}
+{% spaceless %}"{{ __('Question') }}";"{{ __('Corr answer') }}";"{{ __('Workflow state') }}"
+;"{{ __('Answers') }}"
+{% endspaceless %}
+{% for question in items %}
+{% spaceless %}
+    "{{ question.question }}";"{{ question.corrAnswer }}";"{{ question.workflowState|zikulatrivialmodule_objectState(false)|lower }}"
+    ;"
+    {% if question.answers|default %}
+        {% for relatedItem in question.answers %}
+        {{ relatedItem|zikulatrivialmodule_formattedTitle }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    {% endif %}
+    "
+{% endspaceless %}
+{% endfor %}

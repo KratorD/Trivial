@@ -1,0 +1,15 @@
+{# purpose of this template: inclusion template for display of related answers #}
+{% set hasAdminPermission = hasPermission('ZikulaTrivialModule:Answer:', '::', 'ACCESS_EDIT') %}
+{% if items|default and items|length > 0 %}
+<ul class="list-group zikulatrivialmodule-related-item-list answer">
+{% for item in items %}
+    {% if hasAdminPermission or item.workflowState == 'approved' %}
+    <li class="list-group-item">
+<h4 class="list-group-item-heading">
+    {{ item|zikulatrivialmodule_formattedTitle }}
+</h4>
+    </li>
+    {% endif %}
+{% endfor %}
+</ul>
+{% endif %}

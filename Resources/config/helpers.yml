@@ -1,0 +1,93 @@
+services:
+    # Helper services
+    zikula_trivial_module.category_helper:
+        class: Zikula\TrivialModule\Helper\CategoryHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@logger"
+            - "@zikula_users_module.current_user"
+            - "@zikula_categories_module.category_registry_repository"
+            - "@zikula_categories_module.api.category_permission"
+    
+    zikula_trivial_module.collection_filter_helper:
+        class: Zikula\TrivialModule\Helper\CollectionFilterHelper
+        arguments:
+            - "@request_stack"
+            - "@zikula_users_module.current_user"
+            - "@zikula_trivial_module.category_helper"
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaTrivialModule', 'showOnlyOwnEntries', false)"
+    
+    zikula_trivial_module.controller_helper:
+        class: Zikula\TrivialModule\Helper\ControllerHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@form.factory"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_trivial_module.entity_factory"
+            - "@zikula_trivial_module.collection_filter_helper"
+            - "@zikula_trivial_module.model_helper"
+            - "@zikula_trivial_module.feature_activation_helper"
+    
+    zikula_trivial_module.entity_display_helper:
+        class: Zikula\TrivialModule\Helper\EntityDisplayHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@zikula_trivial_module.listentries_helper"
+    
+    zikula_trivial_module.feature_activation_helper:
+        class: Zikula\TrivialModule\Helper\FeatureActivationHelper
+    
+    zikula_trivial_module.hook_helper:
+        class: Zikula\TrivialModule\Helper\HookHelper
+        arguments:
+            - "@hook_dispatcher"
+    
+    zikula_trivial_module.listentries_helper:
+        class: Zikula\TrivialModule\Helper\ListEntriesHelper
+        arguments:
+            - "@translator.default"
+    
+    zikula_trivial_module.model_helper:
+        class: Zikula\TrivialModule\Helper\ModelHelper
+        arguments:
+            - "@zikula_trivial_module.entity_factory"
+    
+    zikula_trivial_module.search_helper:
+        class: Zikula\TrivialModule\Helper\SearchHelper
+        arguments:
+            - "@translator.default"
+            - "@zikula_permissions_module.api.permission"
+            - "@session"
+            - "@request_stack"
+            - "@zikula_trivial_module.entity_factory"
+            - "@zikula_trivial_module.controller_helper"
+            - "@zikula_trivial_module.entity_display_helper"
+            - "@zikula_trivial_module.feature_activation_helper"
+            - "@zikula_trivial_module.category_helper"
+        tags:
+            - { name: zikula.searchable_module, bundleName: ZikulaTrivialModule }
+    
+    zikula_trivial_module.view_helper:
+        class: Zikula\TrivialModule\Helper\ViewHelper
+        arguments:
+            - "@twig"
+            - "@twig.loader"
+            - "@request_stack"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_core.common.theme.pagevars"
+            - "@zikula_trivial_module.controller_helper"
+    
+    zikula_trivial_module.workflow_helper:
+        class: Zikula\TrivialModule\Helper\WorkflowHelper
+        arguments:
+            - "@translator.default"
+            - "@workflow.registry"
+            - "@logger"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_users_module.current_user"
+            - "@zikula_trivial_module.entity_factory"
+            - "@zikula_trivial_module.listentries_helper"

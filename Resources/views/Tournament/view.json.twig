@@ -1,0 +1,7 @@
+{# purpose of this template: tournaments view json view #}
+[
+{% for tournament in items %}
+    {% if not loop.first %},{% endif %}
+    {{ tournament.toArray()|json_encode() }}
+{% endfor %}
+]

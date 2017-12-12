@@ -1,0 +1,6 @@
+{# purpose of this template: answers xml inclusion template #}
+<answer id="{{ answer.getId() }}" createdon="{{ answer.createdDate|localizeddate('medium', 'short') }}" updatedon="{{ answer.updatedDate|localizeddate('medium', 'short') }}">
+    <id>{{ answer.id }}</id>
+    <answer><![CDATA[{{ answer.answer }}]]></answer>
+    <workflowState>{{ answer.workflowState|zikulatrivialmodule_objectState(false)|lower }}</workflowState>
+</answer>

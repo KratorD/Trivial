@@ -1,0 +1,16 @@
+{# purpose of this template: tournaments view csv view #}
+{% spaceless %}"{{ __('Name') }}";"{{ __('Date from') }}";"{{ __('Date to') }}";"{{ __('Active') }}";"{{ __('N questions') }}";"{{ __('Workflow state') }}"
+;"{{ __('Questions') }}"
+{% endspaceless %}
+{% for tournament in items %}
+{% spaceless %}
+    "{{ tournament.name }}";"{{ tournament.dateFrom|localizeddate('medium', 'none') }}";"{{ tournament.dateTo|localizeddate('medium', 'none') }}";"{% if not tournament.active %}0{% else %}1{% endif %}";"{{ tournament.nQuestions }}";"{{ tournament.workflowState|zikulatrivialmodule_objectState(false)|lower }}"
+    ;"
+    {% if tournament.questions|default %}
+        {% for relatedItem in tournament.questions %}
+        {{ relatedItem|zikulatrivialmodule_formattedTitle }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    {% endif %}
+    "
+{% endspaceless %}
+{% endfor %}

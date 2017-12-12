@@ -1,0 +1,17 @@
+{# purpose of this template: tournaments xml inclusion template #}
+<tournament id="{{ tournament.getId() }}" createdon="{{ tournament.createdDate|localizeddate('medium', 'short') }}" updatedon="{{ tournament.updatedDate|localizeddate('medium', 'short') }}">
+    <id>{{ tournament.id }}</id>
+    <name><![CDATA[{{ tournament.name }}]]></name>
+    <dateFrom>{{ tournament.dateFrom|localizeddate('medium', 'none') }}</dateFrom>
+    <dateTo>{{ tournament.dateTo|localizeddate('medium', 'none') }}</dateTo>
+    <active>{% if not tournament.active %}0{% else %}1{% endif %}</active>
+    <nQuestions>{{ tournament.nQuestions }}</nQuestions>
+    <workflowState>{{ tournament.workflowState|zikulatrivialmodule_objectState(false)|lower }}</workflowState>
+    <questions>
+    {% if tournament.questions|default %}
+        {% for relatedItem in tournament.questions %}
+        <question>{{ relatedItem|zikulatrivialmodule_formattedTitle }}</question>
+        {% endfor %}
+    {% endif %}
+    </questions>
+</tournament>

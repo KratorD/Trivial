@@ -1,0 +1,7 @@
+{# purpose of this template: answers view json view #}
+[
+{% for answer in items %}
+    {% if not loop.first %},{% endif %}
+    {{ answer.toArray()|json_encode() }}
+{% endfor %}
+]

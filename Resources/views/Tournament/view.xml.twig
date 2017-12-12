@@ -1,0 +1,9 @@
+{# purpose of this template: tournaments view xml view #}
+<?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
+<tournaments>
+{% for tournament in items %}
+    {{ include('@ZikulaTrivialModule/Tournament/include.xml.twig') }}
+{% else %}
+    <noTournament />
+{% endfor %}
+</tournaments>

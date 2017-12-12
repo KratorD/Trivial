@@ -1,0 +1,128 @@
+services:
+    # Form types
+    
+    zikula_trivial_module.form.type.tournamentquicknav:
+        class: Zikula\TrivialModule\Form\Type\QuickNavigation\TournamentQuickNavType
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.listentries_helper"
+            - "@zikula_trivial_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    zikula_trivial_module.form.type.questionquicknav:
+        class: Zikula\TrivialModule\Form\Type\QuickNavigation\QuestionQuickNavType
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.listentries_helper"
+            - "@zikula_trivial_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    zikula_trivial_module.form.type.answerquicknav:
+        class: Zikula\TrivialModule\Form\Type\QuickNavigation\AnswerQuickNavType
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.listentries_helper"
+            - "@zikula_trivial_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    zikula_trivial_module.form.type.resultquicknav:
+        class: Zikula\TrivialModule\Form\Type\QuickNavigation\ResultQuickNavType
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.listentries_helper"
+            - "@zikula_trivial_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    zikula_trivial_module.form.handler.common:
+        abstract: true
+        arguments:
+            - "@kernel"
+            - "@translator.default"
+            - "@form.factory"
+            - "@request_stack"
+            - "@router"
+            - "@logger"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_users_module.current_user"
+            - "@zikula_trivial_module.entity_factory"
+            - "@zikula_trivial_module.controller_helper"
+            - "@zikula_trivial_module.model_helper"
+            - "@zikula_trivial_module.workflow_helper"
+            - "@zikula_trivial_module.hook_helper"
+            - "@zikula_trivial_module.feature_activation_helper"
+        calls:
+            - [setLockingApi, ["@?zikula_pagelock_module.api.locking"]]
+    
+    
+    zikula_trivial_module.form.handler.tournament:
+        class: Zikula\TrivialModule\Form\Handler\Tournament\EditHandler
+        parent: zikula_trivial_module.form.handler.common
+    
+    zikula_trivial_module.form.type.tournament:
+        class: Zikula\TrivialModule\Form\Type\TournamentType
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.entity_factory"
+            - "@zikula_trivial_module.collection_filter_helper"
+            - "@zikula_trivial_module.entity_display_helper"
+            - "@zikula_trivial_module.listentries_helper"
+            - "@zikula_trivial_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    zikula_trivial_module.form.handler.question:
+        class: Zikula\TrivialModule\Form\Handler\Question\EditHandler
+        parent: zikula_trivial_module.form.handler.common
+    
+    zikula_trivial_module.form.type.question:
+        class: Zikula\TrivialModule\Form\Type\QuestionType
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.entity_factory"
+            - "@zikula_trivial_module.collection_filter_helper"
+            - "@zikula_trivial_module.entity_display_helper"
+            - "@zikula_trivial_module.listentries_helper"
+            - "@zikula_trivial_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    zikula_trivial_module.form.handler.answer:
+        class: Zikula\TrivialModule\Form\Handler\Answer\EditHandler
+        parent: zikula_trivial_module.form.handler.common
+    
+    zikula_trivial_module.form.type.answer:
+        class: Zikula\TrivialModule\Form\Type\AnswerType
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.entity_factory"
+            - "@zikula_trivial_module.collection_filter_helper"
+            - "@zikula_trivial_module.entity_display_helper"
+            - "@zikula_trivial_module.listentries_helper"
+            - "@zikula_trivial_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    zikula_trivial_module.form.type.block.itemlist:
+        class: Zikula\TrivialModule\Block\Form\Type\ItemListBlockType
+        arguments:
+            - "@translator.default"
+        tags: ['form.type']
+    
+    zikula_trivial_module.form.type.block.item:
+        class: Zikula\TrivialModule\Block\Form\Type\ItemBlockType
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.entity_factory"
+            - "@zikula_trivial_module.entity_display_helper"
+        tags: ['form.type']
+    
+    zikula_trivial_module.form.type.questionfinder:
+        class: Zikula\TrivialModule\Form\Type\Finder\QuestionFinderType
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.feature_activation_helper"
+        tags: ['form.type']
+    
+    zikula_trivial_module.form.type.config:
+        class: Zikula\TrivialModule\Form\Type\ConfigType
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.listentries_helper"
+        tags: ['form.type']

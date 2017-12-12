@@ -1,0 +1,15 @@
+{# Purpose of this template: Display item information for previewing from other modules #}
+<dl id="question{{ question.getKey() }}">
+<dt>{{ question|zikulatrivialmodule_formattedTitle|notifyFilters('trivial.filter_hooks.questions.filter')|safeHtml }}</dt>
+{% if question.question is not empty %}<dd>{{ question.question }}</dd>{% endif %}
+{% if featureActivationHelper.isEnabled(constant('Zikula\\TrivialModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'question') %}
+    <dd>
+        <dl class="category-list">
+        {% for propName, catMapping in question.categories %}
+            <dt>{{ propName }}</dt>
+            <dd>{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}</dd>
+        {% endfor %}
+        </dl>
+    </dd>
+{% endif %}
+</dl>

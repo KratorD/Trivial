@@ -1,0 +1,8 @@
+{# purpose of this template: answers view csv view #}
+{% spaceless %}"{{ __('Answer') }}";"{{ __('Workflow state') }}"
+{% endspaceless %}
+{% for answer in items %}
+{% spaceless %}
+    "{{ answer.answer }}";"{{ answer.workflowState|zikulatrivialmodule_objectState(false)|lower }}"
+{% endspaceless %}
+{% endfor %}

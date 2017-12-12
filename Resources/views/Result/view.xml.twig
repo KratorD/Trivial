@@ -1,0 +1,9 @@
+{# purpose of this template: results view xml view #}
+<?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
+<results>
+{% for result in items %}
+    {{ include('@ZikulaTrivialModule/Result/include.xml.twig') }}
+{% else %}
+    <noResult />
+{% endfor %}
+</results>

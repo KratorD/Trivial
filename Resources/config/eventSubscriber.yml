@@ -1,0 +1,72 @@
+services:
+    # Event subscribers and listeners
+    zikula_trivial_module.entity_lifecycle_listener:
+        class: Zikula\TrivialModule\Listener\EntityLifecycleListener
+        arguments:
+            - "@service_container"
+            - "@event_dispatcher"
+            - "@logger"
+        tags: ['doctrine.event_subscriber']
+    
+    zikula_trivial_module.kernel_listener:
+        class: Zikula\TrivialModule\Listener\KernelListener
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.installer_listener:
+        class: Zikula\TrivialModule\Listener\InstallerListener
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.moduledispatch_listener:
+        class: Zikula\TrivialModule\Listener\ModuleDispatchListener
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.mailer_listener:
+        class: Zikula\TrivialModule\Listener\MailerListener
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.theme_listener:
+        class: Zikula\TrivialModule\Listener\ThemeListener
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.userlogin_listener:
+        class: Zikula\TrivialModule\Listener\UserLoginListener
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.userlogout_listener:
+        class: Zikula\TrivialModule\Listener\UserLogoutListener
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.user_listener:
+        class: Zikula\TrivialModule\Listener\UserListener
+        arguments:
+            - "@translator.default"
+            - "@zikula_trivial_module.entity_factory"
+            - "@zikula_users_module.current_user"
+            - "@logger"
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.userregistration_listener:
+        class: Zikula\TrivialModule\Listener\UserRegistrationListener
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.users_listener:
+        class: Zikula\TrivialModule\Listener\UsersListener
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.group_listener:
+        class: Zikula\TrivialModule\Listener\GroupListener
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.thirdparty_listener:
+        class: Zikula\TrivialModule\Listener\ThirdPartyListener
+        arguments:
+            - "@filesystem"
+            - "@request_stack"
+        tags: ['kernel.event_subscriber']
+    
+    zikula_trivial_module.workflow_events_listener:
+        class: Zikula\TrivialModule\Listener\WorkflowEventsListener
+        arguments:
+            - "@zikula_permissions_module.api.permission"
+        tags: ['kernel.event_subscriber']
+    

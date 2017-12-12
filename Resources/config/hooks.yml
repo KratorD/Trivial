@@ -1,0 +1,78 @@
+services:
+    zikula_trivial_module.hook_subscriber.filter_hooks.tournaments:
+        class: Zikula\TrivialModule\HookSubscriber\TournamentFilterHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.filter_hooks.tournaments' }
+
+    zikula_trivial_module.hook_subscriber.form_aware_hook.tournaments:
+        class: Zikula\TrivialModule\HookSubscriber\TournamentFormAwareHookSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.form_aware_hook.tournaments' }
+
+    zikula_trivial_module.hook_subscriber.ui_hooks.tournaments:
+        class: Zikula\TrivialModule\HookSubscriber\TournamentUiHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.ui_hooks.tournaments' }
+
+    zikula_trivial_module.hook_subscriber.filter_hooks.questions:
+        class: Zikula\TrivialModule\HookSubscriber\QuestionFilterHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.filter_hooks.questions' }
+
+    zikula_trivial_module.hook_subscriber.form_aware_hook.questions:
+        class: Zikula\TrivialModule\HookSubscriber\QuestionFormAwareHookSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.form_aware_hook.questions' }
+
+    zikula_trivial_module.hook_subscriber.ui_hooks.questions:
+        class: Zikula\TrivialModule\HookSubscriber\QuestionUiHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.ui_hooks.questions' }
+
+    zikula_trivial_module.hook_subscriber.filter_hooks.answers:
+        class: Zikula\TrivialModule\HookSubscriber\AnswerFilterHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.filter_hooks.answers' }
+
+    zikula_trivial_module.hook_subscriber.form_aware_hook.answers:
+        class: Zikula\TrivialModule\HookSubscriber\AnswerFormAwareHookSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.form_aware_hook.answers' }
+
+    zikula_trivial_module.hook_subscriber.ui_hooks.answers:
+        class: Zikula\TrivialModule\HookSubscriber\AnswerUiHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.ui_hooks.answers' }
+
+    zikula_trivial_module.hook_subscriber.filter_hooks.results:
+        class: Zikula\TrivialModule\HookSubscriber\ResultFilterHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.filter_hooks.results' }
+
+    zikula_trivial_module.hook_subscriber.ui_hooks.results:
+        class: Zikula\TrivialModule\HookSubscriber\ResultUiHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulatrivialmodule.ui_hooks.results' }
+

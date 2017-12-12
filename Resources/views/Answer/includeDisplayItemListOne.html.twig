@@ -1,0 +1,5 @@
+{# purpose of this template: inclusion template for display of related answers #}
+{% set hasAdminPermission = hasPermission('ZikulaTrivialModule:Answer:', '::', 'ACCESS_EDIT') %}
+<h4>
+    {{ item|zikulatrivialmodule_formattedTitle }}
+</h4>

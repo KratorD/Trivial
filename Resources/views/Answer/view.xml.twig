@@ -1,0 +1,9 @@
+{# purpose of this template: answers view xml view #}
+<?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
+<answers>
+{% for answer in items %}
+    {{ include('@ZikulaTrivialModule/Answer/include.xml.twig') }}
+{% else %}
+    <noAnswer />
+{% endfor %}
+</answers>
