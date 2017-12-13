@@ -18,6 +18,10 @@
             {{ form_row(form.corrAnswer) }}
         </fieldset>
         
+        {{ include(
+            '@ZikulaTrivialModule/Tournament/includeSelectOne.html.twig',
+            {group: 'question', heading: __('Tournament'), alias: 'tournament', mandatory: false, idPrefix: 'trivialQuestion_Tournament', linkingItem: question, displayMode: 'choices'}
+        ) }}
         {% if featureActivationHelper.isEnabled(constant('Zikula\\TrivialModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'question') %}
             {{ include('@ZikulaTrivialModule/Helper/includeCategoriesEdit.html.twig', {obj: question}) }}
         {% endif %}
@@ -75,6 +79,8 @@
     {% set formInitScript %}
         <script>
         /* <![CDATA[ */
+            var zikulaTrivialInlineEditHandlers = [];
+            var zikulaTrivialEditHandler = null;
             
             ( function($) {
                 $(document).ready(function() {

@@ -13,6 +13,8 @@ services:
         class: Zikula\TrivialModule\Form\Type\QuickNavigation\QuestionQuickNavType
         arguments:
             - "@translator.default"
+            - "@request_stack"
+            - "@zikula_trivial_module.entity_display_helper"
             - "@zikula_trivial_module.listentries_helper"
             - "@zikula_trivial_module.feature_activation_helper"
         tags: ['form.type']
@@ -21,6 +23,8 @@ services:
         class: Zikula\TrivialModule\Form\Type\QuickNavigation\AnswerQuickNavType
         arguments:
             - "@translator.default"
+            - "@request_stack"
+            - "@zikula_trivial_module.entity_display_helper"
             - "@zikula_trivial_module.listentries_helper"
             - "@zikula_trivial_module.feature_activation_helper"
         tags: ['form.type']

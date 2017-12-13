@@ -87,13 +87,20 @@ abstract class AbstractQuestionEntity extends EntityAccess
     protected $categories = null;
     
     /**
-     * Unidirectional - One question [question] has many answers [answers] (INVERSE SIDE).
+     * Bidirectional - Many questions [questions] are linked by one tournament [tournament] (OWNING SIDE).
      *
-     * @ORM\ManyToMany(targetEntity="Zikula\TrivialModule\Entity\AnswerEntity")
-     * @ORM\JoinTable(name="zikula_trivial_questionanswers",
-     *      joinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" )},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="codanswer", referencedColumnName="id" )}
-     * )
+     * @ORM\ManyToOne(targetEntity="Zikula\TrivialModule\Entity\TournamentEntity", inversedBy="questions")
+     * @ORM\JoinTable(name="zikula_trivial_tournament")
+     * @Assert\Type(type="Zikula\TrivialModule\Entity\TournamentEntity")
+     * @var \Zikula\TrivialModule\Entity\TournamentEntity $tournament
+     */
+    protected $tournament;
+    
+    /**
+     * Bidirectional - One question [question] has many answers [answers] (INVERSE SIDE).
+     *
+     * @ORM\OneToMany(targetEntity="Zikula\TrivialModule\Entity\AnswerEntity", mappedBy="question")
+     * @ORM\JoinTable(name="zikula_trivial_questionanswers")
      * @var \Zikula\TrivialModule\Entity\AnswerEntity[] $answers
      */
     protected $answers = null;
@@ -288,6 +295,28 @@ abstract class AbstractQuestionEntity extends EntityAccess
     }
     
     /**
+     * Returns the tournament.
+     *
+     * @return \Zikula\TrivialModule\Entity\TournamentEntity
+     */
+    public function getTournament()
+    {
+        return $this->tournament;
+    }
+    
+    /**
+     * Sets the tournament.
+     *
+     * @param \Zikula\TrivialModule\Entity\TournamentEntity $tournament
+     *
+     * @return void
+     */
+    public function setTournament($tournament = null)
+    {
+        $this->tournament = $tournament;
+    }
+    
+    /**
      * Returns the answers.
      *
      * @return \Zikula\TrivialModule\Entity\AnswerEntity[]
@@ -324,6 +353,7 @@ abstract class AbstractQuestionEntity extends EntityAccess
     public function addAnswers(\Zikula\TrivialModule\Entity\AnswerEntity $answer)
     {
         $this->answers->add($answer);
+        $answer->setQuestion($this);
     }
     
     /**
@@ -336,6 +366,7 @@ abstract class AbstractQuestionEntity extends EntityAccess
     public function removeAnswers(\Zikula\TrivialModule\Entity\AnswerEntity $answer)
     {
         $this->answers->removeElement($answer);
+        $answer->setQuestion(null);
     }
     
     

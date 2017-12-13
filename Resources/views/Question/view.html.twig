@@ -22,6 +22,7 @@
                 <col id="cItemActionsStart" />
                 <col id="cQuestion" />
                 <col id="cCorrAnswer" />
+                <col id="cTournament" />
             </colgroup>
             <thead>
             <tr>
@@ -36,6 +37,9 @@
                 </th>
                 <th id="hCorrAnswer" scope="col" class="text-right">
                     <a href="{{ sort.corrAnswer.url }}" title="{{ __f('Sort by %s', {'%s': 'corr answer'}) }}" class="{{ sort.corrAnswer.class }}">{{ __('Corr answer') }}</a>
+                </th>
+                <th id="hTournament" scope="col" class="text-left">
+                    <a href="{{ sort.tournament.url }}" title="{{ __f('Sort by %s', {'%s': 'tournament'}) }}" class="{{ sort.tournament.class }}">{{ __('Tournament') }}</a>
                 </th>
             </tr>
             </thead>
@@ -61,10 +65,17 @@
                 <td headers="hCorrAnswer" class="text-right">
                     {{ question.corrAnswer }}
                 </td>
+                <td headers="hTournament" class="text-left">
+                    {% if question.tournament|default %}
+                          {{ question.tournament|zikulatrivialmodule_formattedTitle }}
+                    {% else %}
+                        {{ __('Not set.') }}
+                    {% endif %}
+                </td>
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}4{% else %}3{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}5{% else %}4{% endif %}">
             {{ __('No questions found.') }}
               </td>
             </tr>

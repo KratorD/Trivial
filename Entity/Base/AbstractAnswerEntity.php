@@ -44,9 +44,6 @@ abstract class AbstractAnswerEntity extends EntityAccess
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", unique=true)
-     * @Assert\Type(type="integer")
-     * @Assert\NotNull()
-     * @Assert\LessThan(value=1000000000)
      * @var integer $id
      */
     protected $id = 0;
@@ -69,6 +66,16 @@ abstract class AbstractAnswerEntity extends EntityAccess
      */
     protected $answer = '';
     
+    
+    /**
+     * Bidirectional - Many answers [answers] are linked by one question [question] (OWNING SIDE).
+     *
+     * @ORM\ManyToOne(targetEntity="Zikula\TrivialModule\Entity\QuestionEntity", inversedBy="answers")
+     * @ORM\JoinTable(name="zikula_trivial_question")
+     * @Assert\Type(type="Zikula\TrivialModule\Entity\QuestionEntity")
+     * @var \Zikula\TrivialModule\Entity\QuestionEntity $question
+     */
+    protected $question;
     
     
     /**
@@ -179,6 +186,28 @@ abstract class AbstractAnswerEntity extends EntityAccess
         }
     }
     
+    
+    /**
+     * Returns the question.
+     *
+     * @return \Zikula\TrivialModule\Entity\QuestionEntity
+     */
+    public function getQuestion()
+    {
+        return $this->question;
+    }
+    
+    /**
+     * Sets the question.
+     *
+     * @param \Zikula\TrivialModule\Entity\QuestionEntity $question
+     *
+     * @return void
+     */
+    public function setQuestion($question = null)
+    {
+        $this->question = $question;
+    }
     
     
     

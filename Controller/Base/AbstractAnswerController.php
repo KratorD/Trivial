@@ -92,6 +92,7 @@ abstract class AbstractAnswerController extends AbstractController
         
         $sortableColumns->addColumns([
             new Column('answer'),
+            new Column('question'),
             new Column('createdBy'),
             new Column('createdDate'),
             new Column('updatedBy'),

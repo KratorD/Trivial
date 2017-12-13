@@ -138,6 +138,7 @@ abstract class AbstractQuestionController extends AbstractController
         $sortableColumns->addColumns([
             new Column('question'),
             new Column('corrAnswer'),
+            new Column('tournament'),
             new Column('createdBy'),
             new Column('createdDate'),
             new Column('updatedBy'),

@@ -134,7 +134,7 @@ abstract class AbstractTournamentType extends AbstractType
         $builder->add('dateFrom', DateType::class, [
             'label' => $this->__('Date from') . ':',
             'attr' => [
-                'class' => '',
+                'class' => ' validate-daterange-tournament',
                 'title' => $this->__('Enter the date from of the tournament')
             ],
             'required' => false,
@@ -145,7 +145,7 @@ abstract class AbstractTournamentType extends AbstractType
         $builder->add('dateTo', DateType::class, [
             'label' => $this->__('Date to') . ':',
             'attr' => [
-                'class' => '',
+                'class' => ' validate-daterange-tournament',
                 'title' => $this->__('Enter the date to of the tournament')
             ],
             'required' => false,
@@ -283,6 +283,7 @@ abstract class AbstractTournamentType extends AbstractType
                     return $this->entityFactory->createTournament();
                 },
                 'error_mapping' => [
+                    'isDateFromBeforeDateTo' => 'dateFrom',
                 ],
                 'mode' => 'create',
                 'actions' => [],

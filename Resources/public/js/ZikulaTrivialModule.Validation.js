@@ -63,15 +63,41 @@ function zikulaTrivialValidateNoSpace(val) {
     return (valStr.indexOf(' ') === -1);
 }
 
+function zikulaTrivialValidateDateRangeTournament(val) {
+    var cmpVal, cmpVal2, result;
+    cmpVal = zikulaTrivialReadDate(jQuery("[id$='dateFrom']").val(), false);
+    cmpVal2 = zikulaTrivialReadDate(jQuery("[id$='dateTo']").val(), false);
+
+    if (typeof cmpVal == 'undefined' && typeof cmpVal2 == 'undefined') {
+        result = true;
+    } else {
+        result = (cmpVal <= cmpVal2);
+    }
+
+    return result;
+}
+
 /**
  * Runs special validation rules.
  */
 function zikulaTrivialExecuteCustomValidationConstraints(objectType, currentEntityId) {
-    jQuery('.validate-nospace').each(function () {
-        if (!zikulaTrivialValidateNoSpace(jQuery(this).val())) {
-            document.getElementById(jQuery(this).attr('id')).setCustomValidity(Translator.__('This value must not contain spaces.'));
-        } else {
-            document.getElementById(jQuery(this).attr('id')).setCustomValidity('');
+    jQuery('.validate-daterange-tournament').each(function () {
+        if (typeof jQuery(this).attr('id') != 'undefined') {
+            if (jQuery(this).prop('tagName') == 'DIV') {
+                if (!zikulaTrivialValidateDateRangeTournament()) {
+                    document.getElementById(jQuery(this).attr('id') + '_date').setCustomValidity(Translator.__('The start must be before the end.'));
+                    document.getElementById(jQuery(this).attr('id') + '_time').setCustomValidity(Translator.__('The start must be before the end.'));
+                } else {
+                    document.getElementById(jQuery(this).attr('id') + '_date').setCustomValidity('');
+                    document.getElementById(jQuery(this).attr('id') + '_time').setCustomValidity('');
+                }
+        	} else {
+                if (!zikulaTrivialValidateDateRangeTournament()) {
+                    document.getElementById(jQuery(this).attr('id')).setCustomValidity(Translator.__('The start must be before the end.'));
+                } else {
+                    document.getElementById(jQuery(this).attr('id')).setCustomValidity('');
+                }
+    		}
         }
     });
 }

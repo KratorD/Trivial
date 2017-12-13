@@ -12,6 +12,7 @@
 
 namespace Zikula\TrivialModule\Form\Type\Base;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -109,6 +110,7 @@ abstract class AbstractQuestionType extends AbstractType
         if ($this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, 'question')) {
             $this->addCategoriesField($builder, $options);
         }
+        $this->addIncomingRelationshipFields($builder, $options);
         $this->addModerationFields($builder, $options);
         $this->addSubmitButtons($builder, $options);
     }
@@ -165,6 +167,37 @@ abstract class AbstractQuestionType extends AbstractType
             'module' => 'ZikulaTrivialModule',
             'entity' => 'QuestionEntity',
             'entityCategoryClass' => 'Zikula\TrivialModule\Entity\QuestionCategoryEntity'
+        ]);
+    }
+
+    /**
+     * Adds fields for incoming relationships.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     */
+    public function addIncomingRelationshipFields(FormBuilderInterface $builder, array $options = [])
+    {
+        $queryBuilder = function(EntityRepository $er) {
+            // select without joins
+            return $er->getListQueryBuilder('', '', false);
+        };
+        $entityDisplayHelper = $this->entityDisplayHelper;
+        $choiceLabelClosure = function ($entity) use ($entityDisplayHelper) {
+            return $entityDisplayHelper->getFormattedTitle($entity);
+        };
+        $builder->add('tournament', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', [
+            'class' => 'ZikulaTrivialModule:TournamentEntity',
+            'choice_label' => $choiceLabelClosure,
+            'multiple' => false,
+            'expanded' => false,
+            'query_builder' => $queryBuilder,
+            'placeholder' => $this->__('Please choose an option'),
+            'required' => false,
+            'label' => $this->__('Tournament'),
+            'attr' => [
+                'title' => $this->__('Choose the tournament')
+            ]
         ]);
     }
 

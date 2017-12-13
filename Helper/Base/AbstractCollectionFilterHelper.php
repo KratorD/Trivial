@@ -191,6 +191,7 @@ abstract class AbstractCollectionFilterHelper
     
         $parameters['catId'] = $this->request->query->get('catId', '');
         $parameters['catIdList'] = $this->categoryHelper->retrieveCategoriesFromRequest('question', 'GET');
+        $parameters['tournament'] = $this->request->query->get('tournament', 0);
         $parameters['workflowState'] = $this->request->query->get('workflowState', '');
         $parameters['q'] = $this->request->query->get('q', '');
     
@@ -212,6 +213,7 @@ abstract class AbstractCollectionFilterHelper
             return $parameters;
         }
     
+        $parameters['question'] = $this->request->query->get('question', 0);
         $parameters['workflowState'] = $this->request->query->get('workflowState', '');
         $parameters['q'] = $this->request->query->get('q', '');
     
@@ -487,6 +489,8 @@ abstract class AbstractCollectionFilterHelper
             $qb = $this->addCreatorFilter($qb);
         }
     
+        $qb = $this->applyDateRangeFilterForTournament($qb);
+    
         return $qb;
     }
     
@@ -513,6 +517,9 @@ abstract class AbstractCollectionFilterHelper
     
         if ($showOnlyOwnEntries) {
             $qb = $this->addCreatorFilter($qb);
+        }
+        if (in_array('tblTournament', $qb->getAllAliases())) {
+            $qb = $this->applyDateRangeFilterForTournament($qb, 'tblTournament');
         }
     
         return $qb;
@@ -570,6 +577,27 @@ abstract class AbstractCollectionFilterHelper
         if ($showOnlyOwnEntries) {
             $qb = $this->addCreatorFilter($qb);
         }
+    
+        return $qb;
+    }
+    
+    /**
+     * Applies start and end date filters for selecting tournaments.
+     *
+     * @param QueryBuilder $qb    Query builder to be enhanced
+     * @param string       $alias Table alias
+     *
+     * @return QueryBuilder Enriched query builder instance
+     */
+    protected function applyDateRangeFilterForTournament(QueryBuilder $qb, $alias = 'tbl')
+    {
+        $startDate = $this->request->query->get('dateFrom', date('Y-m-d'));
+        $qb->andWhere('(' . $alias . '.dateFrom <= :startDate OR ' . $alias . '.dateFrom IS NULL)')
+           ->setParameter('startDate', $startDate);
+    
+        $endDate = $this->request->query->get('dateTo', date('Y-m-d'));
+        $qb->andWhere('(' . $alias . '.dateTo >= :endDate OR ' . $alias . '.dateTo IS NULL)')
+           ->setParameter('endDate', $endDate);
     
         return $qb;
     }

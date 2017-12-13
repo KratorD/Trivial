@@ -645,7 +645,7 @@ abstract class AbstractQuestionRepository extends EntityRepository
      */
     protected function addJoinsToSelection()
     {
-        $selection = ', tblAnswers';
+        $selection = ', tblTournament, tblAnswers';
     
         $selection = ', tblCategories';
     
@@ -661,6 +661,7 @@ abstract class AbstractQuestionRepository extends EntityRepository
      */
     protected function addJoinsToFrom(QueryBuilder $qb)
     {
+        $qb->leftJoin('tbl.tournament', 'tblTournament');
         $qb->leftJoin('tbl.answers', 'tblAnswers');
     
         $qb->leftJoin('tbl.categories', 'tblCategories');

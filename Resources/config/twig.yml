@@ -4,6 +4,7 @@ services:
         class: Zikula\TrivialModule\Twig\TwigExtension
         arguments:
             - "@translator.default"
+            - "@request_stack"
             - "@zikula_extensions_module.api.variable"
             - "@zikula_trivial_module.entity_display_helper"
             - "@zikula_trivial_module.workflow_helper"

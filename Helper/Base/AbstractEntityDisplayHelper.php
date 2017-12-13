@@ -195,7 +195,7 @@ abstract class AbstractEntityDisplayHelper
     public function getStartDateFieldName($objectType)
     {
         if ($objectType == 'tournament') {
-            return 'createdDate';
+            return 'dateFrom';
         }
         if ($objectType == 'question') {
             return 'createdDate';

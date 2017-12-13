@@ -17,6 +17,10 @@
             {{ form_row(form.answer) }}
         </fieldset>
         
+        {{ include(
+            '@ZikulaTrivialModule/Question/includeSelectOne.html.twig',
+            {group: 'answer', heading: __('Question'), alias: 'question', mandatory: false, idPrefix: 'trivialAnswer_Question', linkingItem: answer, displayMode: 'choices'}
+        ) }}
         {% if mode != 'create' %}
             {{ include('@ZikulaTrivialModule/Helper/includeStandardFieldsEdit.html.twig', {obj: answer}) }}
         {% endif %}
@@ -71,6 +75,8 @@
     {% set formInitScript %}
         <script>
         /* <![CDATA[ */
+            var zikulaTrivialInlineEditHandlers = [];
+            var zikulaTrivialEditHandler = null;
             
             ( function($) {
                 $(document).ready(function() {

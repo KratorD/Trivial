@@ -30,7 +30,7 @@
     },
     "extra": {
         "zikula": {
-            "core-compatibility": ">=2.0.1 <3.0",
+            "core-compatibility": ">=2.0.3 <3.0",
             "class": "Zikula\\TrivialModule\\ZikulaTrivialModule",
             "displayname": "Trivial",
             "url": "trivial",

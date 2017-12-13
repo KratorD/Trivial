@@ -4,6 +4,7 @@
     <question><![CDATA[{{ question.question }}]]></question>
     <corrAnswer>{{ question.corrAnswer }}</corrAnswer>
     <workflowState>{{ question.workflowState|zikulatrivialmodule_objectState(false)|lower }}</workflowState>
+    <tournament>{% if question.tournament|default %}{{ question.tournament|zikulatrivialmodule_formattedTitle }}{% endif %}</tournament>
     <answers>
     {% if question.answers|default %}
         {% for relatedItem in question.answers %}

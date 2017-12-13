@@ -3,4 +3,5 @@
     <id>{{ answer.id }}</id>
     <answer><![CDATA[{{ answer.answer }}]]></answer>
     <workflowState>{{ answer.workflowState|zikulatrivialmodule_objectState(false)|lower }}</workflowState>
+    <question>{% if answer.question|default %}{{ answer.question|zikulatrivialmodule_formattedTitle }}{% endif %}</question>
 </answer>

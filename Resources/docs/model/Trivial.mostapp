@@ -12,11 +12,11 @@ application "Trivial" {
                 string "name"  {
                     length 50
                 },
-                datetime "dateFrom" {
+                datetime "dateFrom" startDate {
                     mandatory false
                     components DATE
                 },
-                datetime "dateTo" {
+                datetime "dateTo" endDate {
                     mandatory false
                     components DATE
                 },
@@ -85,19 +85,19 @@ application "Trivial" {
         }
     }
     relations {
-        one2many {
+        one2many bidirectional {
             source "tournament"
             sourceAlias "tournament"
             target "question"
             targetAlias "questions"
-            targetField "codQuestion"
+            targetField "id"
         },
-        one2many {
+        one2many bidirectional {
             source "question"
             sourceAlias "question"
             target "answer"
             targetAlias "answers"
-            targetField "codanswer"
+            targetField "id"
         }
     }
 }

@@ -79,6 +79,7 @@ abstract class AbstractTournamentEntity extends EntityAccess
      * @ORM\Column(type="date")
      * @Assert\NotNull()
      * @Assert\Date()
+     * @Assert\Expression("!value or value > this.getDateFrom()")
      * @var date $dateTo
      */
     protected $dateTo;
@@ -102,13 +103,10 @@ abstract class AbstractTournamentEntity extends EntityAccess
     
     
     /**
-     * Unidirectional - One tournament [tournament] has many questions [questions] (INVERSE SIDE).
+     * Bidirectional - One tournament [tournament] has many questions [questions] (INVERSE SIDE).
      *
-     * @ORM\ManyToMany(targetEntity="Zikula\TrivialModule\Entity\QuestionEntity")
-     * @ORM\JoinTable(name="zikula_trivial_tournamentquestions",
-     *      joinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" )},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="codQuestion", referencedColumnName="id" )}
-     * )
+     * @ORM\OneToMany(targetEntity="Zikula\TrivialModule\Entity\QuestionEntity", mappedBy="tournament")
+     * @ORM\JoinTable(name="zikula_trivial_tournamentquestions")
      * @var \Zikula\TrivialModule\Entity\QuestionEntity[] $questions
      */
     protected $questions = null;
@@ -377,6 +375,7 @@ abstract class AbstractTournamentEntity extends EntityAccess
     public function addQuestions(\Zikula\TrivialModule\Entity\QuestionEntity $question)
     {
         $this->questions->add($question);
+        $question->setTournament($this);
     }
     
     /**
@@ -389,6 +388,7 @@ abstract class AbstractTournamentEntity extends EntityAccess
     public function removeQuestions(\Zikula\TrivialModule\Entity\QuestionEntity $question)
     {
         $this->questions->removeElement($question);
+        $question->setTournament(null);
     }
     
     

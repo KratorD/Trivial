@@ -21,6 +21,7 @@
                 {% endif %}
                 <col id="cItemActionsStart" />
                 <col id="cAnswer" />
+                <col id="cQuestion" />
             </colgroup>
             <thead>
             <tr>
@@ -32,6 +33,9 @@
                 <th id="hItemActionsStart" scope="col" class="unsorted z-w02">{{ __('Actions') }}</th>
                 <th id="hAnswer" scope="col" class="text-left">
                     <a href="{{ sort.answer.url }}" title="{{ __f('Sort by %s', {'%s': 'answer'}) }}" class="{{ sort.answer.class }}">{{ __('Answer') }}</a>
+                </th>
+                <th id="hQuestion" scope="col" class="text-left">
+                    <a href="{{ sort.question.url }}" title="{{ __f('Sort by %s', {'%s': 'question'}) }}" class="{{ sort.question.class }}">{{ __('Question') }}</a>
                 </th>
             </tr>
             </thead>
@@ -54,10 +58,20 @@
                 <td headers="hAnswer" class="text-left">
                     {{ answer.answer }}
                 </td>
+                <td headers="hQuestion" class="text-left">
+                    {% if answer.question|default %}
+                        <a href="{{ path('zikulatrivialmodule_question_' ~ routeArea ~ 'display', {'id': answer.question.getId()}) }}">{% spaceless %}
+                          {{ answer.question|zikulatrivialmodule_formattedTitle }}
+                        {% endspaceless %}</a>
+                        <a id="questionItem{{ answer.getKey() }}_rel_{{ answer.question.getKey() }}Display" href="{{ path('zikulatrivialmodule_question_' ~ routeArea ~ 'display', {'id': answer.question.getId(), raw: 1}) }}" title="{{ __('Open quick view window')|e('html_attr') }}" class="zikulatrivial-inline-window hidden" data-modal-title="{{ answer.question|zikulatrivialmodule_formattedTitle|e('html_attr') }}"><i class="fa fa-id-card-o"></i></a>
+                    {% else %}
+                        {{ __('Not set.') }}
+                    {% endif %}
+                </td>
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}3{% else %}2{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}4{% else %}3{% endif %}">
             {{ __('No answers found.') }}
               </td>
             </tr>

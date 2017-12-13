@@ -27,6 +27,16 @@
             <dt>{{ __('Corr answer') }}</dt>
             <dd>{{ question.corrAnswer }}</dd>
         {% endif %}
+        {% if question.tournament|default %}
+            <dt>{{ __('Tournament') }}</dt>
+            <dd>
+              {% if not isQuickView %}
+                    {{ question.tournament|zikulatrivialmodule_formattedTitle }}
+              {% else %}
+                  {{ question.tournament|zikulatrivialmodule_formattedTitle }}
+              {% endif %}
+            </dd>
+        {% endif %}
         
     </dl>
 
